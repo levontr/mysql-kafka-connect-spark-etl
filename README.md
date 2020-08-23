@@ -10,17 +10,17 @@ The pipeline design looks like this:
 ![](etl.jpg)
 
 
-##Used Services:
+## Used Services:
 
-###Source:
+### ource:
 * Mysql database
-###ETL:
+### ETL:
 * Kafka Connect - continuously extracts new rows and row updates from MySQL
 * Kafka - records are pushed to Kafka topic
 * Spark - streaming job which consumes new data from Kafka, converts to Parquet and stores to local storage
   * In the production system the storage would be for instance HDFS or AWS S3
 * Schem Registry - used to store and retrieve schema for mysql records
-###Monitoring:
+### Monitoring:
 * JMX2Graphite - service is used to push the jmx metrics from Kafka-Connect to Graphite
 * Graphite - Is used as a time series database to store system generated metrics
   * In the current implementation Kafka-Connect and Spark generate metrics (Kafka can be easily added as well)
@@ -31,7 +31,7 @@ The pipeline design looks like this:
 ### How to Access ETL processed data:
 * Data is stored locally to spark cluster. data can be accessed with the following command
   * docker exec -it spark ls -la /tmp/etl-data/
-###How to view the metrics:
+### How to view the metrics:
 * Metrics are exported from KafkaConnect (default metrics) and Spark Job (default metrics and custom created ones)
 * Metrics can be accessed via opening predefined Grafana dashboard with the following URL:
   * localhost:3000 and navigating to the dashboard called Metrics
@@ -55,4 +55,4 @@ The pipeline design looks like this:
 * Stop and remove running containers:
   * docker-compose down
 
-####This way of infra creation and job deployment is just for demonstration purposes, not meant to be used in production
+#### This way of infra creation and job deployment is just for demonstration purposes, not meant to be used in production
